@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <!-- 帶入BoosTrap -->
+        <title>myweb</title>
+    </head>
+
+    <body>
+        <div class="container">
+            <h1 class="mb-4">文章列表</h1>
+            <a href="/articles/new" class="btn btn-success">新增文章</a>
+            <!-- 導向new.ejs頁面 -->
+            <!-- 好 在server app.get('/')內的 res.render內的({articles: articles})
+                將會在下面做使用 find()後拿出來的東西會是一個array 所以我們可以對他做forEach來將裡面的一個一個文章的物件拿出來做處理
+            -->
+            <% articles.forEach(article => { %>
+            <div class="card mt-4">
+                <!-- 單純設定一下 外觀設定 -->
+                <div class="card-body">
+                    <!-- 這邊的 article.title 會帶入我們在server.js的app get那設定的const articles的title的值 -->
+                    <h4 class="card-title"><%= article.title %></h4>
+                    <!-- 因為前面有forEach 所以db裡面有多少個物件 就會對多少個title分別加入給每一組div 這邊的< %= article.title %> 是在ejs內要將find()出來的array提取出title值的寫法 -->
+                    <div class="card-subtitle text-muted mb-2"><%= article.createdAt.toLocaleDateString() %></div>
+                    <!-- 那subtitle是我們加入的時間我們在schema裡有放入createdAt 不過若我們只單單寫上這個會是超級一大串而我們只需要年月日而已 所以我們使用.toLocaleDateString() -->
+                    <div class="card-text mb-2"><%= article.description %></div>
+                    <!-- 那我們會在進入文章前 有一小段 描述一下文章內容 放在列表上 讓看的人有一個了解 所以我們加入了description -->
+                    <a href="/articles/<%= article.slug %>" class="btn btn-primary">查看更多</a>
+                    <!-- 這邊的slug稍後再說 查看更多可以進入文章葉面去看內容 -->
+                    <a href="/articles/edit/<%= article.id %>" class="btn btn-info">編輯</a>
+                    <!-- 這個按下去可以 編輯內容邏輯稍後說 -->
+                    <form action="/articles/<%- article.id %>?_method=DELETE" method="POST" class="d-inline">
+                        <button type="submit" class="btn btn-danger">刪除</button>
+                    </form>
+                    <!-- 這個form的action="/articles/< %- article.id %>?_method=DELETE" 的_method=DELETE 是透過methodOverride 帶入 可以將其帶入delete api做刪除  -->
+                    <!-- 這邊的href 或者action都是一個api 可以再routes裡的檔案查看  -->
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </body>
+</html>

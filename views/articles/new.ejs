@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie-edge" />
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <title>myweb</title>
+        <!-- head部分沒什麼差 -->
+    </head>
+
+    <body>
+        <div class="container">
+            <!-- 一樣的外框 隨你的css更改 -->
+            <h1 class="mb-4">新增文章</h1>
+            <!-- 新增頁面用新增title -->
+            <form action="/articles" method="POST"><%- include('_form_fields') %></form>
+            <!-- 這邊的action對應到 routes 的article.js的router.post('/') 而%- include('_form_fields') %> 因為編輯function使用的格式是一樣的 那我們新增一個'_form_fields'來簡單的做出模板  那這邊我們前進到_form_fields-->
+
+            <!--那在按下儲存按鈕後 form的action會觸發到/articles 的post
+                而 /articles 在router裡等同於是 api裡的/ 
+                所以我們看到router.post("/", 為開頭的api
+            -->
+        </div>
+    </body>
+</html>
